@@ -33,4 +33,13 @@ def mark_as_undone(request,pk):
     return redirect('home')
 
 def editTask(request,pk):
-    return render(request, 'edit_task.html', {'pk': pk})
+
+    if request.method == 'POST':
+        get_task = get_object_or_404(AppUser,pk=pk)
+        get_task.task = request.POST.get('task')
+        get_task.save()
+        return redirect('home')
+    else:
+        get_task = get_object_or_404(AppUser, pk=pk)
+        context = {'get_task': get_task}
+        return render(request, 'edit_task.html',context)
