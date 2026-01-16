@@ -43,3 +43,13 @@ def editTask(request,pk):
         get_task = get_object_or_404(AppUser, pk=pk)
         context = {'get_task': get_task}
         return render(request, 'edit_task.html',context)
+    
+def resetTasks(request):
+
+    get_tasks = AppUser.objects.all()
+
+    if get_tasks:
+        get_tasks.delete()
+        return redirect('home')
+    else:
+        return HttpResponse("No tasks to reset.")
